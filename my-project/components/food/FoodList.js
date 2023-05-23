@@ -106,7 +106,7 @@ function FoodList() {
       <View
         style={{
           marginLeft: "38%",
-
+          borderColor: "lightgrey",
           borderWidth: 0.5,
           borderRadius: "50%",
           height: 100,

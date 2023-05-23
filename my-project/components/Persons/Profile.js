@@ -33,7 +33,7 @@ function Profile() {
       <View
         style={{
           marginLeft: "38%",
-
+          borderColor: "lightgrey",
           borderWidth: 0.5,
           borderRadius: "50%",
           height: 100,
@@ -43,7 +43,7 @@ function Profile() {
           backgroundColor: "#FF3371",
         }}
       >
-        <Ionicons name="person-outline" size={65} color="#FFFDD0" />
+        <Ionicons name="person-outline" size={65} color="lightgrey" />
       </View>
       <Text style={styles.text}>Email: {person.email}</Text>
       <Text style={styles.text}>Phone Number: {person.phoneNumber}</Text>

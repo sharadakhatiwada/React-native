@@ -6,6 +6,7 @@ async function editPerson(req, res) {
   const person = req.person;
   const db = req.db;
   const personDetails = req.body.person;
+  console.log(personDetails);
   delete personDetails._id;
   if (personDetails.password) {
     personDetails.password = await bcrypt.hash(personDetails.password, 10);

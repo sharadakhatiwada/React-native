@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const accessTokenSecret = "hello-secret";
 const collectionName = "users";
 const { ObjectId } = require("mongodb");
+
 async function login(req, res, next) {
   try {
     let password = req.body.password;
@@ -18,7 +19,15 @@ async function login(req, res, next) {
       const validPassword = await bcrypt.compare(password, person.password);
       if (validPassword) {
         const token = signToken(person);
-        res.send({ token, person });
+        res.send({
+          token,
+          person: {
+            email: person.email,
+            fullName: person.fullName,
+            address: person.address,
+            phoneNumber: person.phoneNumber,
+          },
+        });
       } else {
         res.status(400).send("Invalid Password!");
       }
@@ -45,7 +54,15 @@ async function signUp(req, res) {
   await db.collection(collectionName).insertOne(person);
 
   let token = signToken(person);
-  res.send({ token, person });
+  res.send({
+    token,
+    person: {
+      email: person.email,
+      fullName: person.fullName,
+      address: person.address,
+      phoneNumber: person.phoneNumber,
+    },
+  });
 }
 
 function signToken(userObj) {
