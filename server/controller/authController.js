@@ -47,7 +47,7 @@ async function signUp(req, res) {
 
   const result = await db.collection(collectionName).findOne({ email: email });
   if (result) {
-    console.log(result);
+    
     return res.status(403).send("Email already been used !");
   }
   person.password = await bcrypt.hash(person.password, 10);

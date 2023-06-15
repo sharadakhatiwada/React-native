@@ -11,23 +11,23 @@ import * as ImagePicker from "expo-image-picker";
 
 import { useState } from "react";
 export default function EditFood({ route }) {
-  console.log("routessss", route.params);
   const { food, editFood } = route.params;
   const [editFoodState, setEditFoodState] = useState(food);
+
   const onChangeHandler = (text, name) => {
     const copyEditFood = { ...editFoodState };
     copyEditFood[name] = text;
     setEditFoodState(copyEditFood);
   };
 
-  const handlePick = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    if (!result.cancelled) onChangeHandler(result.assets[0].uri, "image");
-  };
+  // const handlePick = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.All,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
+  //   if (!result.cancelled) onChangeHandler(result.assets[0].uri, "image");
+  // };
   return (
     <View style={styles.container}>
       <TextInput
@@ -48,8 +48,13 @@ export default function EditFood({ route }) {
         value={editFoodState.origin}
         onChangeText={(text) => onChangeHandler(text, "origin")}
       ></TextInput>
+      <TextInput
+        style={styles.input}
+        placeholder="image.jpeg"
+        value={editFoodState.image}
+        onChangeText={(text) => onChangeHandler(text, "image")}
+      ></TextInput>
 
-      <Button title="Pick an image from camera roll" onPress={handlePick} />
       {editFoodState.image && (
         <Image
           source={{ uri: editFoodState.image }}
@@ -94,3 +99,4 @@ styles = StyleSheet.create({
   },
 });
 //name, price, date, and image link.
+//<Button title="Pick an image from camera roll" onPress={handlePick} />

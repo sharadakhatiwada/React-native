@@ -25,14 +25,14 @@ export default function AddFood({ route }) {
     setFood(copyFood);
   };
 
-  const handlePick = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    if (!result.cancelled) handleChange(result.assets[0].uri, "image");
-  };
+  // const handlePick = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.All,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
+  //   if (!result.cancelled) handleChange(result.assets[0].uri, "image");
+  // };
   console.log(food);
   return (
     <View style={styles.container}>
@@ -54,7 +54,14 @@ export default function AddFood({ route }) {
         value={food.origin}
         onChangeText={(text) => handleChange(text, "origin")}
       ></TextInput>
-      <Button title="Pick an image from camera roll" onPress={handlePick} />
+      <TextInput
+        style={styles.input}
+        placeholder="image.jpeg"
+        value={food.image}
+        onChangeText={(text) => handleChange(text, "image")}
+      ></TextInput>
+      {/* <Button title="Pick an image from camera roll" onPress={handlePick} />
+       */}
       <View>
         {food.image && (
           <Image

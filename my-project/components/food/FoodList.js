@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import Food from "./Food";
 import AddFood from "./AddFood";
 import EditFood from "./EditFood";
-import FoodDetails from "./FoodDetals";
+import FoodDetails from "./FoodDetails";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 import axios from "axios";

@@ -9,51 +9,12 @@ import Login from "./components/Login";
 
 export const AuthContext = createContext();
 
-function SplashScreen() {
-  return (
-    <View>
-      <Text>Loading...</Text>
-    </View>
-  );
-}
-
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  // const [state, dispatch] = useReducer(
-  //   (prevState, action) => {
-  //     switch (action.type) {
-  //       case "RESTORE_TOKEN":
-  //         return {
-  //           ...prevState,
-  //           userToken: action.token,
-  //           isLoading: false,
-  //         };
-  //       case "SIGN_IN":
-  //         return {
-  //           ...prevState,
-  //           isSignout: false,
-  //           userToken: action.token,
-  //         };
-  //       case "SIGN_OUT":
-  //         return {
-  //           ...prevState,
-  //           isSignout: true,
-  //           userToken: null,
-  //         };
-  //     }
-  //   },
-  //   {
-  //     isLoading: true,
-  //     isSignout: false,
-  //     userToken: null,
-  //   }
-  // );
-
   const [userInfo, setUserInfo] = useState({
     user: {},
     token: "",
-    isLoading: true,
     error: {
       signUp: "",
       login: "",
@@ -62,21 +23,18 @@ export default function App() {
 
   useEffect(async () => {
     try {
-      console.log("WElcome");
       const token = await AsyncStorage.getItem("token");
       let user = JSON.parse(await AsyncStorage.getItem("person"));
-      console.log(token);
+
       setUserInfo({
         user,
         token,
-        isLoading: false,
         error: { signUp: "", login: "" },
       });
     } catch (e) {
       setUserInfo({
         user: {},
         token: "",
-        isLoading: false,
         error: { signUp: "", login: "" },
       });
     }
@@ -84,19 +42,15 @@ export default function App() {
 
   async function commonSign(user, path) {
     try {
-      console.log("heeeeee");
       let { data } = await axios.post(`http://localhost:3000/${path}`, user, {
         headers: {
           "content-type": "application/json",
         },
       });
-
-      console.log(" dataaaaa", data.token);
-      setUserInfo({ user: data.person, token: data.token, isLoading: false });
+      setUserInfo({ user: data.person, token: data.token });
       AsyncStorage.setItem("token", data.token);
       AsyncStorage.setItem("person", JSON.stringify(data.person));
     } catch (err) {
-      console.log(err.response);
       if (path === "login") {
         setUserInfo({
           ...userInfo,
@@ -130,8 +84,6 @@ export default function App() {
       AsyncStorage.removeItem("person");
     },
     signUp: async (data) => {
-      // call api to signup and pass token from response to below
-      console.log("sign uppppppaDlasjdlas");
       commonSign(data, "signUp");
     },
     err: (type) => {
@@ -143,22 +95,16 @@ export default function App() {
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         <Stack.Navigator>
-          {userInfo.isLoading ? (
-            // We haven't finished checking for the token yet
-            <Stack.Screen name="Splash" component={SplashScreen} />
-          ) : !userInfo.token ? (
-            // No token found, user isn't signed in
+          {!userInfo.token ? (
             <Stack.Screen
               name="sign-in"
               component={Login}
               options={{
                 title: "login",
-                // When logging out, a pop animation feels intuitive
-                animationTypeForReplace: userInfo.isSignout ? "pop" : "push",
+                // animationTypeForReplace: userInfo.isSignout ? "pop" : "push",
               }}
             />
           ) : (
-            // User is signed in
             <Stack.Screen
               name="Home"
               component={Home}
